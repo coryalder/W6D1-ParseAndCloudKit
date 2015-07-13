@@ -1,6 +1,6 @@
 //
 //  MasterViewController.m
-//  Lighthouse
+//  CloudLighthouse
 //
 //  Created by Cory Alder on 2015-07-13.
 //  Copyright (c) 2015 Cory Alder. All rights reserved.
@@ -8,8 +8,7 @@
 
 #import "MasterViewController.h"
 #import "DetailViewController.h"
-#import <Parse/Parse.h>
-#import "Event.h"
+#import <CloudKit/CloudKit.h>
 
 @interface MasterViewController ()
 
@@ -24,8 +23,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
+    
     self.objects = [[NSMutableArray alloc] init];
+    
     
     // Do any additional setup after loading the view, typically from a nib.
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
@@ -35,21 +36,32 @@
     
     
     
-    // load events using a query.
+    CKContainer *container = [CKContainer defaultContainer];
+    
+    CKDatabase *database = [container publicCloudDatabase];
     
     
-    PFQuery *query = [[PFQuery alloc] initWithClassName:@"Event"];
+    CKQuery *query = [[CKQuery alloc] initWithRecordType:@"Event" predicate:[NSPredicate predicateWithValue:@(YES)]];
     
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error){
+    
+    [database performQuery:query inZoneWithID:nil completionHandler:^(NSArray *results, NSError *error) {
+       
         
-        self.objects = [objects mutableCopy];
+        self.objects = [results mutableCopy];
+        
         
         dispatch_async(dispatch_get_main_queue(), ^{
+            
             [self.tableView reloadData];
         });
+        
     }];
     
-    
+//    
+//    CKSubscription *subscription = [[CKSubscription alloc] initWithRecordType:@"Event" predicate:[] options:(CKSubscriptionOptions)];
+//    
+//    subscription.
+//    
     
     
 }
@@ -61,23 +73,30 @@
 
 - (void)insertNewObject:(id)sender {
     
-    // create and save event
     
-    Event *newEvent = [[Event alloc] init];
-    //PFObject *newEvent = [[PFObject alloc] initWithClassName:@"Event"];
+    CKRecord *newEvent = [[CKRecord alloc] initWithRecordType:@"Event"];
     
-    newEvent.date = [NSDate date];
-    newEvent.count = arc4random_uniform(100);
+    [newEvent setObject:[NSDate date] forKey:@"date"];
+    newEvent[@"date"] = [NSDate date];
+    [newEvent setObject:@(arc4random_uniform(100)) forKey:@"count"];
     
-    newEvent.installation = [PFInstallation currentInstallation];
+    CKContainer *container = [CKContainer defaultContainer];
+    
+    CKDatabase *database = [container publicCloudDatabase];
+    
+    [database saveRecord:newEvent completionHandler:^(CKRecord *record, NSError *error) {
+        
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.objects insertObject:record atIndex:0];
+            
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+            [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        });
+
+    }];
     
     
-    [newEvent saveEventually];
-    
-    
-    [self.objects insertObject:newEvent atIndex:0];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 #pragma mark - Segues
@@ -103,11 +122,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 
-    Event *object = self.objects[indexPath.row];
-    
-    cell.textLabel.text = [object.date description];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%ld", object.count];
-    
+    CKRecord *object = self.objects[indexPath.row];
+    cell.textLabel.text = [[object objectForKey:@"date"] description];
     return cell;
 }
 

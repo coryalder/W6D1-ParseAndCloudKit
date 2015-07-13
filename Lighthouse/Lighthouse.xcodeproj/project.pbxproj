@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8B16C9FE1B53F56E00E2F7B7 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B16C9FD1B53F56E00E2F7B7 /* Event.m */; };
 		8BDC855D1B53CB640046E8A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BDC855C1B53CB640046E8A4 /* main.m */; };
 		8BDC85601B53CB640046E8A4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BDC855F1B53CB640046E8A4 /* AppDelegate.m */; };
 		8BDC85631B53CB640046E8A4 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BDC85621B53CB640046E8A4 /* MasterViewController.m */; };
@@ -41,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8B16C9FC1B53F56E00E2F7B7 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
+		8B16C9FD1B53F56E00E2F7B7 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
 		8BDC85571B53CB640046E8A4 /* Lighthouse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lighthouse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BDC855B1B53CB640046E8A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8BDC855C1B53CB640046E8A4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -128,6 +131,8 @@
 				8BDC855F1B53CB640046E8A4 /* AppDelegate.m */,
 				8BDC85611B53CB640046E8A4 /* MasterViewController.h */,
 				8BDC85621B53CB640046E8A4 /* MasterViewController.m */,
+				8B16C9FC1B53F56E00E2F7B7 /* Event.h */,
+				8B16C9FD1B53F56E00E2F7B7 /* Event.m */,
 				8BDC85641B53CB640046E8A4 /* DetailViewController.h */,
 				8BDC85651B53CB640046E8A4 /* DetailViewController.m */,
 				8BDC85671B53CB640046E8A4 /* Main.storyboard */,
@@ -286,6 +291,7 @@
 			files = (
 				8BDC85601B53CB640046E8A4 /* AppDelegate.m in Sources */,
 				8BDC85631B53CB640046E8A4 /* MasterViewController.m in Sources */,
+				8B16C9FE1B53F56E00E2F7B7 /* Event.m in Sources */,
 				8BDC855D1B53CB640046E8A4 /* main.m in Sources */,
 				8BDC85661B53CB640046E8A4 /* DetailViewController.m in Sources */,
 			);
@@ -490,6 +496,7 @@
 				8BDC857F1B53CB640046E8A4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8BDC85801B53CB640046E8A4 /* Build configuration list for PBXNativeTarget "LighthouseTests" */ = {
 			isa = XCConfigurationList;
@@ -498,6 +505,7 @@
 				8BDC85821B53CB640046E8A4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
